@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+# Use Homebrew bash if available (required for associative arrays)
+# Check if we're already using Homebrew bash to avoid infinite loop
+BASH_PATH=$(command -v bash)
+if [ "$BASH_PATH" != "/opt/homebrew/bin/bash" ] && [ "$BASH_PATH" != "/usr/local/bin/bash" ]; then
+    if [ -f /opt/homebrew/bin/bash ]; then
+        exec /opt/homebrew/bin/bash "$0" "$@"
+    elif [ -f /usr/local/bin/bash ]; then
+        exec /usr/local/bin/bash "$0" "$@"
+    fi
+fi
 set -Eeuo pipefail
 
 source "$(dirname "${0}")/lib/common.sh"
